@@ -20,6 +20,8 @@ class RegisterController extends Controller
     |
     */
 
+// ユーザ登録のためのコントローラー
+
     use RegistersUsers;
 
     /**
@@ -27,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';   // ユーザ登録後のリダイレクト先を指定（トップページヘ）
 
     /**
      * Create a new controller instance.
@@ -36,8 +38,9 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
-    }
+        $this->middleware('guest');   // ユーザ登録のコントローラー（RegisterController）へのアクセス権限を指定
+    }                                   // すでにユーザ登録している人（ログイン出来ている人）は再度登録の必要が無いため
+                                        // guestは「app/Http/Kernel.php」に定義されている（エイリアス）（ニックネームのようなもの）
 
     /**
      * Get a validator for an incoming registration request.
@@ -45,12 +48,12 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data)   // ユーザ登録時のフォームデータのバリデーション（検証）を実施する関数を定義
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+        return Validator::make($data, [                                 // Validatorはトレイト「RegistersUsers」の中のメソッドに定義　オーバーライドで使用
+            'name' => 'required|string|max:255',                        // required（入力欄が空っぽでないか）　string（文字であるか）　max:255（文字数は255まで）
+            'email' => 'required|string|email|max:255|unique:users',    // email（email形式か）　unique:users（usersテーブルにおいて重複が無いか）
+            'password' => 'required|string|min:6|confirmed',            // min:6（6文字以上）　confirmed（password確認のための再入力欄と値が同じであるか）
         ]);
     }
 
@@ -60,12 +63,12 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(array $data)              // ユーザ新規作成のためのメソッド
     {
-        return User::create([
+        return User::create([                           
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => bcrypt($data['password']),    // bcryptでpasswordのハッシュ化（暗号化）
         ]);
     }
 }
