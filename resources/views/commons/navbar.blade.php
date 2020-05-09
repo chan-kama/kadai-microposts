@@ -10,12 +10,13 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 @if (Auth::check())         {{-- ユーザのログインを確認　ログインを確認出来たら以下のメニューを表示 --}}
-                    <li class="nav-item"><a href="#" class="nav-link">Users</a></li>
+                    <li class="nav-item">{!! link_to_route('users.index', 'Users', [], ['class' => 'nav-link']) !!}</li>   {{-- Usersのリンクを設置 --}}
                     <li class="nav-item dropdown">         {{-- 以下からドロップダウンメニュー --}}
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a>   {{-- Auth::user()でログイン中のユーザ情報を取得 --}}
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item"><a href="#">My Profile</a></li>
-                            <li class="dropdown-diviver"></li>
+                            <li class="dropdown-item">{!! link_to_route('users.show', 'My Profile', ['id' => Auth::id()]) !!}</li>
+                                        {{-- users.showへのリンク設置　リンク先のURL末尾にid　idはAuth::id()でログイン中のユーザのidを取得 --}}
+                            <li class="dropdown-divider"></li>
                             <li class="dropdown-item">{!! link_to_route('logout.get', 'Logout') !!}</li>
                         </ul>
                     </li>

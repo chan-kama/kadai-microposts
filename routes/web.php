@@ -27,3 +27,10 @@ Route::post('signup', 'Auth\RegisterController@register')->name('signup.post');
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
+
+// ユーザ機能
+Route::group(['middleware' => ['auth']], function () {      // Route::groupでルーティンググループを作成
+                                            // 'middleware' => ['auth']でこのルーティンググループ内ではログイン認証が必要
+   Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);     // usersにアクセスした時の7つの基本ルーティングを作成
+                                            // ただし、今回はindex（ユーザ一覧）とshow（ユーザ詳細）だけに限定　
+});
