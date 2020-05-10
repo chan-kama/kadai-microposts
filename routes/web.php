@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'MicropostsController@index');
 
 // ユーザ登録
 Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup.get');
@@ -29,8 +27,9 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 // ユーザ機能
-Route::group(['middleware' => ['auth']], function () {      // Route::groupでルーティンググループを作成
+Route::group(['middleware' => 'auth'], function () {      // Route::groupでルーティンググループを作成
                                             // 'middleware' => ['auth']でこのルーティンググループ内ではログイン認証が必要
-   Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);     // usersにアクセスした時の7つの基本ルーティングを作成
-                                            // ただし、今回はindex（ユーザ一覧）とshow（ユーザ詳細）だけに限定　
+    Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);     // usersにアクセスした時の7つの基本ルーティングを作成
+                                            // ただし、今回はindex（ユーザ一覧）とshow（ユーザ詳細）だけに限定
+    Route::resource('microposts', 'MicropostsController', ['only' => ['store', 'destroy']]);
 });

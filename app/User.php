@@ -26,4 +26,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',   // password と remember_token を（テーブル上で）非表示に
     ];
+    
+    public function microposts()
+    {
+        return $this->hasMany(Micropost::class);    // このUserインスタンスが持つ多数のMicropostの情報を戻す
+    }                                               // 一対多の表現
 }

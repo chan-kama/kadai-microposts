@@ -21,9 +21,13 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);    // Userモデルからshow($id)の$idに該当するレコードを取得
+        $microposts = $user->microposts()->orderBy('created_at', 'desc')->pagination(10);
         
-        return view('users.show', [     // users.showファイルでview
-            'user' => $user,            // viewファイルに$userを渡す
-        ]);
+        $data = [
+            'user' => $user,
+            'microposts' => $microposts,
+        ];
+        
+        return view('users.show', $data);     // users.showファイルでview
     }
 }
