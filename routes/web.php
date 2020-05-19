@@ -31,5 +31,13 @@ Route::group(['middleware' => 'auth'], function () {      // Route::groupでル�
                                             // 'middleware' => ['auth']でこのルーティンググループ内ではログイン認証が必要
     Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);     // usersにアクセスした時の7つの基本ルーティングを作成
                                             // ただし、今回はindex（ユーザ一覧）とshow（ユーザ詳細）だけに限定
+    
+    Route::group(['prefix' => 'users/{id}'], function() {
+       Route::post('follow', 'UserFollowController@store')->name('user.follow');
+       Route::delete('unfollow', 'UserFollowController@destroy')->name('user.unfollow');
+       Route::get('followings', 'UsersController@followings')->name('users.followings');
+       Route::get('followers', 'UsersController@followers')->name('users.followers');
+    });
+                                            
     Route::resource('microposts', 'MicropostsController', ['only' => ['store', 'destroy']]);
 });
