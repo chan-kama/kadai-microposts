@@ -16,6 +16,7 @@
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li class="dropdown-item">{!! link_to_route('users.show', 'My Profile', ['id' => Auth::id()]) !!}</li>
                                         {{-- users.showへのリンク設置　リンク先のURL末尾にid　idはAuth::id()でログイン中のユーザのidを取得 --}}
+                            <li class="dropdown-item">{!! link_to_route('users.favorites', 'Favorites', ['id' => Auth::id()]) !!}</li>
                             <li class="dropdown-divider"></li>
                             <li class="dropdown-item">{!! link_to_route('logout.get', 'Logout') !!}</li>
                         </ul>

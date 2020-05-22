@@ -12,4 +12,9 @@ class Micropost extends Model
     {
         return $this->belongsTo(User::class);       // このMicropostのインスタンスが所属する1つのUser情報を戻す
     }                                               // 多対一の表現
+    
+    public function favorite_users()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'micropost_id', 'user_id')->withTimestamps();
+    }
 }
